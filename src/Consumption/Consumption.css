@@ -1,0 +1,51 @@
+.month-selection {
+    display: flex;
+    justify-content: center;
+    flex-wrap:wrap;
+}
+
+.month {
+    display: inline;
+    padding: 4px;
+    margin: 4px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #2f2f2f;
+    opacity: 0.5;
+}
+
+.month:nth-child(6n):after {
+    content: "\00000a";
+    white-space: pre;
+}
+
+.active {
+    opacity: 1;
+    background-color: #4CAF50;
+}
+
+.month:hover {
+    cursor:pointer;
+}
+
+.consumption-header {
+    font-size: 1.5rem;
+}
+
+.consumption-description {
+    font-size: 1rem;
+}
+
+.consumption-selected-period {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    color:rgb(192, 192, 192);
+    font-style: italic;
+}
+
+.consumption-cost-details {
+    color:rgb(192, 192, 192);
+    font-style: italic;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
