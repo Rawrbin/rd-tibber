@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
-import { GET_LAST_MONTH } from "../gql/price.gql";
+import { GET_CURRENT_MONTH2 } from "../gql/price.gql";
 import "./Consumption.css";
 import { months } from "./months";
 
 const Consumption = () => {
   const [activeMonth, setActiveMonth] = useState("");
-  const { data, loading, error } = useQuery(GET_LAST_MONTH);
+  const { data, loading, error } = useQuery(GET_CURRENT_MONTH2);
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
@@ -21,31 +21,23 @@ const Consumption = () => {
   const powerConsumption = data.viewer.homes[0].consumption.nodes[0].consumption.toFixed(2);
   const unitPriceWithVatWithoutMarkUp = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(5) - 0.01;
 
-  // Unused variables
-  // const unitPriceWithVat = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(2);
-  // const markUpPrice = powerConsumption - powerConsumption * 0.01;
-  // const vatPrice = data.viewer.homes[0].consumption.nodes[0].unitPriceVAT.toFixed(2);
-
-  // TODO: Calculate "strømstøtte"
-
-  // TODO: Get selected month. 'before: "MjAyMi0xMC0wMVQwMDowMDowMC4wMDArMDE6MDA=")'.
-  // NOTE: 2022-09-01T00:00:00.000 to BASE64 MjAyMi0wOS0wMVQwMDowMDowMC4wMDA=
+  // Variables strømstøtte
+  const dailyNordpoolCostData = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes;
+  const averagePriceNordpoolCostData = dailyNordpoolCostData.reduce((a, v) => (a = a + v.energy), 0);
+  const averageMonthPrice = averagePriceNordpoolCostData / dailyNordpoolCostData.length;
+  const powerSubsidy = (averageMonthPrice * 1.25 - 0.875) * 0.9;
+  const estimatedTotalPowerSubsidy = (powerSubsidy * powerConsumption).toFixed(2);
 
   return (
     <>
       Month selection not activated
       <div className="month-selection">
-        {months.map((month) => {
-          return (
-            <div
-              key={month.id}
-              className={activeMonth === month.name ? "month active" : "month"}
-              onClick={(e) => setActiveMonth(month.name)}
-            >
-              {month.name}
-            </div>
-          );
-        })}
+        <div onClick={() => setActiveMonth("nov")} className={activeMonth === "nov" ? "month active" : "month"}>
+          November
+        </div>
+        <div onClick={() => setActiveMonth("dec")} className={activeMonth === "dec" ? "month active" : "month"}>
+          December
+        </div>
       </div>
       {activeMonth !== "" && (
         <>
@@ -54,15 +46,21 @@ const Consumption = () => {
           <div className="consumption-selected-period">
             {fromDate} - {toDate}
           </div>
-          {data.viewer.homes[0].consumption.nodes[0].to}
           <div>
             <div className="consumption-cost-summary">
               Power consumption cost for selected month: <span>{costPrice}</span> kr
             </div>
             <div className="consumption-cost-details">
-              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} øre/kWh and 1 øre mark up each kWh (+{powerConsumption * 0.01})
+              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} kr/kWh and 1 øre mark up each kWh (+{powerConsumption * 0.01})
             </div>
           </div>
+          <div>
+            Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} kr</span>
+          </div>
+          <div className="consumption-cost-details">
+            Subsidy based by {powerSubsidy.toFixed(4)} kr/kWh with usage of {powerConsumption} kWh
+          </div>
+          <div>Nordpool average kWh cost for November: {averageMonthPrice}</div>
         </>
       )}
     </>
