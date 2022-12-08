@@ -35,3 +35,23 @@ export const GET_CURRENT_MONTH = gql`
     }
   }
 `;
+
+export const GET_CURRENT_MONTH2 = gql`
+  query getLastMonth {
+    viewer {
+      homes {
+        currentSubscription{
+          priceInfo{
+            range(resolution: DAILY, first: 30, after: "MjAyMi0xMC0zMQ=="){
+              nodes {
+                energy
+                startsAt
+                currency
+              }
+            }
+          }
+        }
+      }		
+    }
+  }
+`;
