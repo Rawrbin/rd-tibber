@@ -53,7 +53,7 @@ function App() {
         <h1>Welcome</h1>
         {!token && (
           <>
-            <div className="token-please">Please enter Tibber Token</div>
+            <div className="token-please">Please enter your Tibber Token</div>
             <form>
               <label aria-label="tibber token">
                 <input type="text" value={inputValue} name="token" onChange={(e) => handleTokenChange(e)} />

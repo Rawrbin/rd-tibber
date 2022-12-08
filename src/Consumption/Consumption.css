@@ -1,3 +1,8 @@
+.month-header {
+    font-size: 1.5rem;
+    color: #66FCF1;
+}
+
 .month-selection {
     display: flex;
     justify-content: center;

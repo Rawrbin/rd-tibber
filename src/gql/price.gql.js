@@ -1,31 +1,12 @@
 import { gql } from "@apollo/client";
-export const GET_LAST_MONTH_UNUSED = gql`
-  query getLastMonth {
-    viewer {
-      homes {
-        consumption(resolution: MONTHLY, last: 1) {
-          nodes {
-            from
-            to
-            cost
-            unitPrice
-            unitPriceVAT
-            consumption
-            consumptionUnit
-          }
-        }
-      }
-    }
-  }
-`;
 
-export const GET_CURRENT_MONTH = gql`
-  query getLastMonth {
+export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
+  query getConsumptionData($after: String) {
     viewer {
       homes {
         currentSubscription {
           priceInfo {
-            range(resolution: DAILY, first: 30, after: "MjAyMi0xMC0zMQ==") {
+            range(resolution: DAILY, first: 30, after: $after) {
               nodes {
                 energy
                 startsAt
@@ -38,7 +19,7 @@ export const GET_CURRENT_MONTH = gql`
     }
     viewer {
       homes {
-        consumption(resolution: MONTHLY, last: 1) {
+        consumption(resolution: MONTHLY, first: 1, after: $after) {
           nodes {
             from
             to

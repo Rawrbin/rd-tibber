@@ -9,6 +9,7 @@ body {
 
 h1 {
   color: #66FCF1;
+  text-transform: uppercase;
 }
 
 .token-please {

@@ -1,19 +1,30 @@
 import React, { useState } from "react";
-import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
-import { GET_CURRENT_MONTH } from "../gql/price.gql";
+import { GET_CONSUMPTION_DATA_SELECTED_MONTH } from "../gql/price.gql";
 import "./Consumption.css";
 
 const Consumption = () => {
   const [activeMonth, setActiveMonth] = useState("");
-  const { data, loading, error } = useQuery(GET_CURRENT_MONTH);
+  const [encodedMonth, setEncodedMonth] = useState("");
+
+  const { data, loading, error } = useQuery(GET_CONSUMPTION_DATA_SELECTED_MONTH, {
+    variables: { after: encodedMonth },
+  });
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
   // TODO: Make user select a month
-  const fromDate = format(new Date(data.viewer.homes[0].consumption.nodes[0].from), "dd.MMM yy");
-  const toDate = format(new Date(data.viewer.homes[0].consumption.nodes[0].to), "dd.MMM yy");
+  const changeMonth = (month) => {
+    if (month === "nov") {
+      setActiveMonth("nov");
+      setEncodedMonth("MjAyMi0xMC0zMVQwMDowMDowMC4wMDArMDE6MDA=");
+    }
+    if (month === "dec") {
+      setActiveMonth("dec");
+      setEncodedMonth("MjAyMi0xMS0zMFQwMDowMDowMC4wMDArMDE6MDA=");
+    }
+  };
 
   // Variables
   const costPrice = data.viewer.homes[0].consumption.nodes[0].cost.toFixed(2);
@@ -29,12 +40,12 @@ const Consumption = () => {
 
   return (
     <>
-      Month selection not activated
+      <div className="month-header">Select a month</div>
       <div className="month-selection">
-        <div onClick={() => setActiveMonth("nov")} className={activeMonth === "nov" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("nov")} className={activeMonth === "nov" ? "month active" : "month"}>
           November
         </div>
-        <div onClick={() => setActiveMonth("dec")} className={activeMonth === "dec" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("dec")} className={activeMonth === "dec" ? "month active" : "month"}>
           December
         </div>
       </div>
@@ -42,9 +53,6 @@ const Consumption = () => {
         <>
           <div className="consumption-header">Consumption</div>
           <div className="consumption-description">Below you'll find data for selected period</div>
-          <div className="consumption-selected-period">
-            {fromDate} - {toDate}
-          </div>
           <div>
             <div className="consumption-cost-summary">
               Power consumption cost for selected month: <span>{costPrice}</span> kr
@@ -59,7 +67,7 @@ const Consumption = () => {
           <div className="consumption-cost-details">
             Subsidy based by {powerSubsidy.toFixed(4)} kr/kWh with usage of {powerConsumption} kWh
           </div>
-          <div>Nordpool average kWh cost for November: {averageMonthPrice}</div>
+          <div>Nordpool average kWh cost for November: {averageMonthPrice.toFixed(4)}</div>
         </>
       )}
     </>
