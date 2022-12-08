@@ -4,6 +4,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@ap
 import { setContext } from "@apollo/client/link/context";
 import Home from "./Home";
 import Consumption from "./Consumption/Consumption";
+import ConsumptionSupport from "./Consumption/ConsumptionSupport";
 
 function App() {
   // State variables
@@ -68,6 +69,11 @@ function App() {
         {token && (
           <div className="consumption-container">
             <Consumption />
+          </div>
+        )}
+        {token && (
+          <div className="consumption-container">
+            <ConsumptionSupport />
           </div>
         )}
       </div>

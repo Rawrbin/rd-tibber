@@ -18,3 +18,20 @@ export const GET_LAST_MONTH = gql`
     }
   }
 `;
+
+export const GET_CURRENT_MONTH = gql`
+  query getLastMonth {
+    viewer {
+      homes {
+        consumption(resolution: HOURLY, first:744, after:"MjAyMi0xMi0wMVQwMDowMDowMC4wMDArMDE6MDA=") {
+          nodes {
+            from
+            to
+            unitPrice
+            unitPriceVAT
+          }
+        }
+      }
+    }
+  }
+`;
