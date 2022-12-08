@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-export const GET_LAST_MONTH = gql`
+export const GET_LAST_MONTH_UNUSED = gql`
   query getLastMonth {
     viewer {
       homes {
@@ -19,7 +19,7 @@ export const GET_LAST_MONTH = gql`
   }
 `;
 
-export const GET_CURRENT_MONTH2 = gql`
+export const GET_CURRENT_MONTH = gql`
   query getLastMonth {
     viewer {
       homes {

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
-import { GET_CURRENT_MONTH2 } from "../gql/price.gql";
+import { GET_CURRENT_MONTH } from "../gql/price.gql";
 import "./Consumption.css";
-import { months } from "./months";
 
 const Consumption = () => {
   const [activeMonth, setActiveMonth] = useState("");
-  const { data, loading, error } = useQuery(GET_CURRENT_MONTH2);
+  const { data, loading, error } = useQuery(GET_CURRENT_MONTH);
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
