@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
-  query getConsumptionData($after: String) {
+  query getConsumptionData($first: Int, $after: String) {
     viewer {
       homes {
         currentSubscription {
           priceInfo {
-            range(resolution: DAILY, first: 30, after: $after) {
+            range(resolution: DAILY, first: $first, after: $after) {
               nodes {
                 energy
                 startsAt
