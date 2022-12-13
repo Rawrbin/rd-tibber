@@ -81,8 +81,6 @@ const Consumption = () => {
   const powerConsumption = data.viewer.homes[0].consumption.nodes[0].consumption.toFixed(2);
   const unitPriceWithVatWithoutMarkUp = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(5) - 0.01;
 
-  console.log(currency);
-
   // Variables strømstøtte
   const dailyNordpoolCostData = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes;
   const averagePriceNordpoolCostData = dailyNordpoolCostData.reduce((a, v) => (a = a + v.energy), 0);
