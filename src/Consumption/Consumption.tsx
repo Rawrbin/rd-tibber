@@ -14,8 +14,8 @@ const Consumption = () => {
     variables: { first: amountOfDays, after: encodedMonth, hours: amountOfHours, monthHour: encodedDays },
   });
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>`Error! ${error.message}`</div>;
 
   // TODO: Make user select a month
   // const encodedString = Buffer.from('your string here').toString('base64');
@@ -33,7 +33,7 @@ const Consumption = () => {
 
   // TODO: Find 3 highest usage (hours). Get average.
 
-  const changeMonth = (month) => {
+  const changeMonth = (month: String) => {
     if (month === "aug") {
       setActiveMonth("aug");
       setAmountOfDays(31);
@@ -95,7 +95,7 @@ const Consumption = () => {
   const averageTopThreeConsumption = topThreeConsumptionHours.reduce((a, v) => (a = a + v), 0) / 3.0;
 
   return (
-    <>
+    <React.Fragment>
       <div className="month-header">Select a month</div>
       <div className="month-selection">
         <div onClick={() => changeMonth("aug")} className={activeMonth === "aug" ? "month active" : "month"}>
@@ -150,7 +150,7 @@ const Consumption = () => {
           </div>
         </>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

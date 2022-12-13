@@ -2,10 +2,11 @@ import { useState } from "react";
 import "./App.css";
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import React from "react";
 import Home from "./Home";
 import Consumption from "./Consumption/Consumption";
 
-function App() {
+const App = () => {
   // State variables
   const [token, setToken] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -64,7 +65,7 @@ function App() {
             </form>
           </>
         )}
-        {token && <Home token={token} />}
+        <div>{token && <Home />}</div>
         {token && (
           <div className="consumption-container">
             <Consumption />
@@ -73,6 +74,6 @@ function App() {
       </div>
     </ApolloProvider>
   );
-}
+};
 
 export default App;
