@@ -6,10 +6,12 @@ import "./Consumption.css";
 const Consumption = () => {
   const [activeMonth, setActiveMonth] = useState("");
   const [amountOfDays, setAmountOfDays] = useState(0);
+  const [amountOfHours, setAmountOfHours] = useState(0);
   const [encodedMonth, setEncodedMonth] = useState("");
+  const [encodedDays, setEncodedDays] = useState("");
 
   const { data, loading, error } = useQuery(GET_CONSUMPTION_DATA_SELECTED_MONTH, {
-    variables: { first: amountOfDays, after: encodedMonth },
+    variables: { first: amountOfDays, after: encodedMonth, hours: amountOfHours, monthHour: encodedDays },
   });
 
   if (loading) return "Loading...";
@@ -29,31 +31,47 @@ const Consumption = () => {
       }
     } */
 
+  // TODO: Find 3 highest usage (hours). Get average.
+
   const changeMonth = (month) => {
     if (month === "aug") {
       setActiveMonth("aug");
       setAmountOfDays(31);
-      setEncodedMonth("MjAyMi0wNy0zMVQwMDowMDowMC4wMDArMDE6MDA=");
+      setAmountOfHours(744);
+      // 2022-07-31
+      setEncodedMonth("MjAyMi0wNy0zMQ==");
+      setEncodedDays("MjAyMi0wOC0wMQ==");
     }
     if (month === "sep") {
       setActiveMonth("sep");
       setAmountOfDays(30);
-      setEncodedMonth("MjAyMi0wOC0zMVQwMDowMDowMC4wMDArMDE6MDA=");
+      setAmountOfHours(720);
+      // 2022-08-31
+      setEncodedMonth("MjAyMi0wOC0zMQ==");
+      setEncodedDays("MjAyMi0wOS0wMQ==");
     }
     if (month === "oct") {
       setActiveMonth("oct");
       setAmountOfDays(31);
-      setEncodedMonth("MjAyMi0wOS0zMFQwMDowMDowMC4wMDArMDE6MDA=");
+      setAmountOfHours(744);
+      // 2022-09-30
+      setEncodedMonth("MjAyMi0wOS0zMA==");
+      setEncodedDays("MjAyMi0xMC0wMQ==");
     }
     if (month === "nov") {
       setActiveMonth("nov");
       setAmountOfDays(30);
-      setEncodedMonth("MjAyMi0xMC0zMVQwMDowMDowMC4wMDArMDE6MDA=");
+      setAmountOfHours(720);
+      // 2022-10-31
+      setEncodedMonth("MjAyMi0xMC0zMQ==");
+      setEncodedDays("MjAyMi0xMS0wMQ==");
     }
     if (month === "dec") {
       setActiveMonth("dec");
       setAmountOfDays(31);
-      setEncodedMonth("MjAyMi0xMS0zMFQwMDowMDowMC4wMDArMDE6MDA=");
+      setAmountOfHours(744);
+      setEncodedMonth("MjAyMi0xMS0zMA==");
+      setEncodedDays("MjAyMi0xMi0wMQ==");
     }
   };
 
@@ -68,6 +86,13 @@ const Consumption = () => {
   const averageMonthPrice = averagePriceNordpoolCostData / dailyNordpoolCostData.length;
   const powerSubsidy = (averageMonthPrice * 1.25 - 0.875) * 0.9;
   const estimatedTotalPowerSubsidy = (powerSubsidy * powerConsumption).toFixed(2);
+
+  // TODO: Find top 3 usage for a month
+  const topThreeConsumptionHours = data.viewer.homes[0].usageWat.nodes
+    .map((x) => x.consumption)
+    .sort((x, y) => y - x)
+    .splice(0, 3);
+  const averageTopThreeConsumption = topThreeConsumptionHours.reduce((a, v) => (a = a + v), 0) / 3.0;
 
   return (
     <>
@@ -92,7 +117,9 @@ const Consumption = () => {
       {activeMonth !== "" && (
         <>
           <div className="consumption-header">Consumption</div>
+
           <div className="consumption-description">Below you'll find data for selected period</div>
+
           <div>
             <div className="consumption-cost-summary">
               Power consumption cost for selected month: <span>{costPrice}</span> kr
@@ -100,14 +127,27 @@ const Consumption = () => {
             <div className="consumption-cost-details">
               {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} kr/kWh and 1 øre mark up each kWh (+{powerConsumption * 0.01})
             </div>
+            <div>
+              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} kr</span>
+            </div>
           </div>
-          <div>
-            Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} kr</span>
+
+          <div className="consumption-top">
+            Average top 3 usage: <span>{averageTopThreeConsumption}</span>
+            <div className="consumption-top-three">
+              {topThreeConsumptionHours.map((amount, key) => {
+                return (
+                  <div className="consumption-top-three-amount" key={key}>
+                    {amount}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className="consumption-cost-details">
-            Subsidy based by {powerSubsidy.toFixed(4)} kr/kWh with usage of {powerConsumption} kWh
+
+          <div className="nordpool-average">
+            Nordpool average kWh cost for November: <div>{averageMonthPrice.toFixed(4)}</div>
           </div>
-          <div>Nordpool average kWh cost for November: {averageMonthPrice.toFixed(4)}</div>
         </>
       )}
     </>

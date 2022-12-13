@@ -54,3 +54,20 @@
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
 }
+
+.consumption-top {
+    margin-top: 0.5rem;
+}
+.consumption-top-three {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.consumption-top-three-amount {
+    padding-right: 4px;
+}
+
+.nordpool-average {
+    margin-top: 0.5rem;
+}

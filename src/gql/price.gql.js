@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
-  query getConsumptionData($first: Int, $after: String) {
+  query getConsumptionData($first: Int, $after: String, $hours: Int, $monthHour: String) {
     viewer {
       homes {
         currentSubscription {
@@ -21,8 +21,6 @@ export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
       homes {
         consumption(resolution: MONTHLY, first: 1, after: $after) {
           nodes {
-            from
-            to
             cost
             unitPrice
             unitPriceVAT
@@ -30,7 +28,32 @@ export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
             consumptionUnit
           }
         }
+        usageWat: consumption(resolution: HOURLY, first: $hours, after: $monthHour) {
+          nodes {
+            consumption
+            from
+          }
+        }
       }
     }
   }
 `;
+
+// currentSubscription - priceInfo will handle monthly average Nordpool price.
+// consumption - with hourly can handle average 3 highest consumed hours.
+// consumption - with monthly can handle monthly cost, usage and detail break down of cost for the month.
+// the one below can be used to find 3 highest consumed hours.
+/*
+consumption(resolution: HOURLY last: 10 before: "MjAyMi0xMi0wMlQwMDowMDowMC4wMDArMDE6MDA=") {
+        nodes {
+          from
+          to
+          cost
+          unitPrice
+          unitPriceVAT
+          consumption
+          consumptionUnit
+        }
+      }
+
+      */
