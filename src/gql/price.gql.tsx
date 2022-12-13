@@ -42,18 +42,3 @@ export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
 // currentSubscription - priceInfo will handle monthly average Nordpool price.
 // consumption - with hourly can handle average 3 highest consumed hours.
 // consumption - with monthly can handle monthly cost, usage and detail break down of cost for the month.
-// the one below can be used to find 3 highest consumed hours.
-/*
-consumption(resolution: HOURLY last: 10 before: "MjAyMi0xMi0wMlQwMDowMDowMC4wMDArMDE6MDA=") {
-        nodes {
-          from
-          to
-          cost
-          unitPrice
-          unitPriceVAT
-          consumption
-          consumptionUnit
-        }
-      }
-
-      */

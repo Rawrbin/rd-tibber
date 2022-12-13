@@ -19,11 +19,6 @@
     opacity: 0.5;
 }
 
-.month:nth-child(6n):after {
-    content: "\00000a";
-    white-space: pre;
-}
-
 .active {
     opacity: 1;
     background-color: #4CAF50;
@@ -37,18 +32,7 @@
     font-size: 1.5rem;
 }
 
-.consumption-description {
-    font-size: 1rem;
-}
-
-.consumption-selected-period {
-    font-size: 0.8rem;
-    margin-bottom: 0.5rem;
-    color:rgb(192, 192, 192);
-    font-style: italic;
-}
-
-.consumption-cost-details {
+.sub-data {
     color:rgb(192, 192, 192);
     font-style: italic;
     font-size: 0.8rem;
@@ -58,6 +42,7 @@
 .consumption-top {
     margin-top: 0.5rem;
 }
+
 .consumption-top-three {
     display: flex;
     flex-direction: row;
@@ -66,8 +51,8 @@
 
 .consumption-top-three-amount {
     padding-right: 4px;
-}
-
-.nordpool-average {
-    margin-top: 0.5rem;
+    color:rgb(192, 192, 192);
+    font-style: italic;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
 }

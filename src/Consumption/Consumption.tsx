@@ -34,40 +34,40 @@ const Consumption = () => {
   // TODO: Find 3 highest usage (hours). Get average.
 
   const changeMonth = (month: String) => {
-    if (month === "aug") {
-      setActiveMonth("aug");
+    if (month === "August") {
+      setActiveMonth("August");
       setAmountOfDays(31);
       setAmountOfHours(744);
       // 2022-07-31
       setEncodedMonth("MjAyMi0wNy0zMQ==");
       setEncodedDays("MjAyMi0wOC0wMQ==");
     }
-    if (month === "sep") {
-      setActiveMonth("sep");
+    if (month === "September") {
+      setActiveMonth("September");
       setAmountOfDays(30);
       setAmountOfHours(720);
       // 2022-08-31
       setEncodedMonth("MjAyMi0wOC0zMQ==");
       setEncodedDays("MjAyMi0wOS0wMQ==");
     }
-    if (month === "oct") {
-      setActiveMonth("oct");
+    if (month === "October") {
+      setActiveMonth("October");
       setAmountOfDays(31);
       setAmountOfHours(744);
       // 2022-09-30
       setEncodedMonth("MjAyMi0wOS0zMA==");
       setEncodedDays("MjAyMi0xMC0wMQ==");
     }
-    if (month === "nov") {
-      setActiveMonth("nov");
+    if (month === "November") {
+      setActiveMonth("November");
       setAmountOfDays(30);
       setAmountOfHours(720);
       // 2022-10-31
       setEncodedMonth("MjAyMi0xMC0zMQ==");
       setEncodedDays("MjAyMi0xMS0wMQ==");
     }
-    if (month === "dec") {
-      setActiveMonth("dec");
+    if (month === "December") {
+      setActiveMonth("December");
       setAmountOfDays(31);
       setAmountOfHours(744);
       setEncodedMonth("MjAyMi0xMS0zMA==");
@@ -76,9 +76,12 @@ const Consumption = () => {
   };
 
   // Variables
+  const currency = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes[0].currency;
   const costPrice = data.viewer.homes[0].consumption.nodes[0].cost.toFixed(2);
   const powerConsumption = data.viewer.homes[0].consumption.nodes[0].consumption.toFixed(2);
   const unitPriceWithVatWithoutMarkUp = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(5) - 0.01;
+
+  console.log(currency);
 
   // Variables strømstøtte
   const dailyNordpoolCostData = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes;
@@ -87,7 +90,7 @@ const Consumption = () => {
   const powerSubsidy = (averageMonthPrice * 1.25 - 0.875) * 0.9;
   const estimatedTotalPowerSubsidy = (powerSubsidy * powerConsumption).toFixed(2);
 
-  // TODO: Find top 3 usage for a month
+  // Find top 3 usage for a month
   const topThreeConsumptionHours = data.viewer.homes[0].usageWat.nodes
     .map((x) => x.consumption)
     .sort((x, y) => y - x)
@@ -98,19 +101,19 @@ const Consumption = () => {
     <React.Fragment>
       <div className="month-header">Select a month</div>
       <div className="month-selection">
-        <div onClick={() => changeMonth("aug")} className={activeMonth === "aug" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("August")} className={activeMonth === "August" ? "month active" : "month"}>
           August
         </div>
-        <div onClick={() => changeMonth("sep")} className={activeMonth === "sep" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("September")} className={activeMonth === "September" ? "month active" : "month"}>
           September
         </div>
-        <div onClick={() => changeMonth("oct")} className={activeMonth === "oct" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("October")} className={activeMonth === "October" ? "month active" : "month"}>
           October
         </div>
-        <div onClick={() => changeMonth("nov")} className={activeMonth === "nov" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("November")} className={activeMonth === "November" ? "month active" : "month"}>
           November
         </div>
-        <div onClick={() => changeMonth("dec")} className={activeMonth === "dec" ? "month active" : "month"}>
+        <div onClick={() => changeMonth("December")} className={activeMonth === "December" ? "month active" : "month"}>
           December
         </div>
       </div>
@@ -118,22 +121,27 @@ const Consumption = () => {
         <>
           <div className="consumption-header">Consumption</div>
 
-          <div className="consumption-description">Below you'll find data for selected period</div>
+          <div className="sub-data">Below you'll find data for {activeMonth}</div>
 
           <div>
             <div className="consumption-cost-summary">
-              Power consumption cost for selected month: <span>{costPrice}</span> kr
+              Power consumption cost for selected month: <span>{costPrice}</span> {currency}
             </div>
-            <div className="consumption-cost-details">
-              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} kr/kWh and 1 øre mark up each kWh (+{powerConsumption * 0.01})
+            <div className="sub-data">
+              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} {currency}/kWh and 1 øre mark up each kWh (+
+              {powerConsumption * 0.01})
             </div>
             <div>
-              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} kr</span>
+              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} </span>
+              {currency}
+              <div className="sub-data">
+                Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)}
+              </div>
             </div>
           </div>
 
           <div className="consumption-top">
-            Average top 3 usage: <span>{averageTopThreeConsumption}</span>
+            Average top 3 usage: <span>{averageTopThreeConsumption.toFixed(2)}</span> kWh
             <div className="consumption-top-three">
               {topThreeConsumptionHours.map((amount, key) => {
                 return (
@@ -143,10 +151,6 @@ const Consumption = () => {
                 );
               })}
             </div>
-          </div>
-
-          <div className="nordpool-average">
-            Nordpool average kWh cost for November: <div>{averageMonthPrice.toFixed(4)}</div>
           </div>
         </>
       )}
