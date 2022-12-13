@@ -17,22 +17,6 @@ const Consumption = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>`Error! ${error.message}`</div>;
 
-  // TODO: Make user select a month
-  // const encodedString = Buffer.from('your string here').toString('base64');
-
-  // TODO: Use grid company
-  /* {
-      viewer {
-        homes {
-          meteringPointData {
-            gridCompany
-          }
-        }
-      }
-    } */
-
-  // TODO: Find 3 highest usage (hours). Get average.
-
   const changeMonth = (month: String) => {
     if (month === "August") {
       setActiveMonth("August");
@@ -88,7 +72,7 @@ const Consumption = () => {
   const powerSubsidy = (averageMonthPrice * 1.25 - 0.875) * 0.9;
   const estimatedTotalPowerSubsidy = (powerSubsidy * powerConsumption).toFixed(2);
 
-  // Find top 3 usage for a month
+  // Find top 3 usage for a month. Get average.
   const topThreeConsumptionHours = data.viewer.homes[0].usageWat.nodes
     .map((x) => x.consumption)
     .sort((x, y) => y - x)
