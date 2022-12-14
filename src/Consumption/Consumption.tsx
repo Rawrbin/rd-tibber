@@ -60,7 +60,7 @@ const Consumption = () => {
   };
 
   // Variables
-  const currency = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes[0].currency;
+  // const currency = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes[0].currency;
   const costPrice = data.viewer.homes[0].consumption.nodes[0].cost.toFixed(2);
   const powerConsumption = data.viewer.homes[0].consumption.nodes[0].consumption.toFixed(2);
   const unitPriceWithVatWithoutMarkUp = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(5) - 0.01;
@@ -107,17 +107,17 @@ const Consumption = () => {
 
           <div>
             <div className="consumption-cost-summary">
-              Power consumption cost for selected month: <span>{costPrice}</span> {currency}
+              Power consumption cost for selected month: <span>{costPrice}</span> NOK
             </div>
             <div className="sub-data">
-              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} {currency}/kWh and 1 øre mark up each kWh (+
-              {powerConsumption * 0.01})
+              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} NOK/kWh and 1 øre mark up each kWh (+
+              {powerConsumption * 0.01}) NOK
             </div>
             <div>
-              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} </span>
-              {currency}
+              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} </span>NOK
+              
               <div className="sub-data">
-                Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)}
+                Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)} NOK
               </div>
             </div>
           </div>
