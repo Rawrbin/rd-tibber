@@ -14,9 +14,8 @@ const TokenCheck: React.FC<TokenCheckProps> = ({ token }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error! Invalid token</div>;
 
+  // Check if the token is active.
   const subscribed = data.viewer.homes[0].currentSubscription;
-
-  console.log(subscribed);
 
   if (subscribed !== null) {
     return (
