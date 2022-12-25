@@ -3,8 +3,7 @@ import "./App.css";
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import React from "react";
-import Home from "./Home";
-import Consumption from "./Consumption/Consumption";
+import TokenCheck from "./TokenCheck/TokenCheck";
 
 const App = () => {
   // State variables
@@ -65,12 +64,7 @@ const App = () => {
             </form>
           </>
         )}
-        <div>{token && <Home />}</div>
-        {token && (
-          <div className="consumption-container">
-            <Consumption />
-          </div>
-        )}
+        <div>{token && <TokenCheck token={token} />}</div>
       </div>
     </ApolloProvider>
   );

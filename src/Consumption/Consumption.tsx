@@ -83,9 +83,9 @@ const Consumption = () => {
     <React.Fragment>
       <div className="month-header">Select a month</div>
       <div className="month-selection">
-        <div onClick={() => changeMonth("August")} className={activeMonth === "August" ? "month active" : "month"}>
-          August
-        </div>
+        {/*<div onClick={() => changeMonth("August")} className={activeMonth === "August" ? "month active" : "month"}>
+            August
+          </div>*/}
         <div onClick={() => changeMonth("September")} className={activeMonth === "September" ? "month active" : "month"}>
           September
         </div>
@@ -115,7 +115,6 @@ const Consumption = () => {
             </div>
             <div>
               Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} </span>NOK
-              
               <div className="sub-data">
                 Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)} NOK
               </div>
