@@ -18,7 +18,7 @@ const Home = () => {
         Displaying data for: <span>{data?.viewer?.homes[0].address.address1}</span>
       </div>
       <div>
-        Current Price: <span>{data?.viewer?.homes[0].currentSubscription.priceInfo.current.total.toFixed(2)}</span> NOK kWh
+        Current Price: <span>{data?.viewer?.homes[0].currentSubscription.priceInfo.current.total.toFixed(2)}</span>
       </div>
     </div>
   );

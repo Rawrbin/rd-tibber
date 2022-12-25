@@ -107,16 +107,16 @@ const Consumption = () => {
 
           <div>
             <div className="consumption-cost-summary">
-              Power consumption cost for selected month: <span>{costPrice}</span> NOK
+              Power consumption cost for selected month: <span>{costPrice}</span>
             </div>
             <div className="sub-data">
-              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} NOK/kWh and 1 øre mark up each kWh (+
-              {powerConsumption * 0.01}) NOK
+              {powerConsumption} kWh at {unitPriceWithVatWithoutMarkUp} and 1 øre mark up each kWh (+
+              {powerConsumption * 0.01})
             </div>
             <div>
-              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy} </span>NOK
+              Your estimated power subsidy for selected month: <span>{estimatedTotalPowerSubsidy}</span>
               <div className="sub-data">
-                Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)} NOK
+                Based on an average Nordpool price for {activeMonth} set at {averageMonthPrice.toFixed(2)}
               </div>
             </div>
           </div>

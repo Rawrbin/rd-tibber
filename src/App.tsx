@@ -6,15 +6,12 @@ import React from "react";
 import TokenCheck from "./TokenCheck/TokenCheck";
 
 const App = () => {
-  // State variables
+  // Initial variable states
   const [token, setToken] = useState("");
   const [inputValue, setInputValue] = useState("");
 
   // Static variables
   const queryUrl = "https://api.tibber.com/v1-beta/gql";
-
-  // Unused static variables
-  // const feedUrl = "wss://api.tibber.com/v1-beta/gql/subscriptions";
 
   // Client generation
   const httpLink = createHttpLink({
