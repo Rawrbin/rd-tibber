@@ -4,6 +4,9 @@ export const GET_CONSUMPTION_DATA_SELECTED_MONTH = gql`
   query getConsumptionData($first: Int, $after: String, $hours: Int, $monthHour: String) {
     viewer {
       homes {
+        meteringPointData {
+          gridCompany
+        }
         currentSubscription {
           priceInfo {
             range(resolution: DAILY, first: $first, after: $after) {

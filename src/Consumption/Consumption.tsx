@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_CONSUMPTION_DATA_SELECTED_MONTH } from "../gql/price.gql";
 import "./Consumption.css";
+import { nettleie } from "./nettleie";
 
 const Consumption = () => {
   const [activeMonth, setActiveMonth] = useState("");
@@ -61,6 +62,7 @@ const Consumption = () => {
 
   // Variables
   // const currency = data.viewer.homes[0].currentSubscription.priceInfo.range.nodes[0].currency;
+  // const gridName = data.viewer.homes[0].meteringPointData.gridCompany;
   const costPrice = data.viewer.homes[0].consumption.nodes[0].cost.toFixed(2);
   const powerConsumption = data.viewer.homes[0].consumption.nodes[0].consumption.toFixed(2);
   const unitPriceWithVatWithoutMarkUp = data.viewer.homes[0].consumption.nodes[0].unitPrice.toFixed(5) - 0.01;
@@ -132,6 +134,19 @@ const Consumption = () => {
                 );
               })}
             </div>
+            {data.viewer.homes[0].meteringPointData.gridCompany === "BKK Nett AS" && (
+              <>
+                <div>
+                  Estimated <i>nettleie</i> price: <span>{nettleie(parseFloat(averageTopThreeConsumption.toFixed(2)))}</span>
+                </div>
+                <div className="summary">
+                  Total: <span>{parseFloat(costPrice) + nettleie(parseFloat(averageTopThreeConsumption.toFixed(2)))}</span>
+                  <div className="sub-data">
+                    This does <b>not</b> include the energy link price of BKK Nett AS.
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}
